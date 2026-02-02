@@ -14,11 +14,12 @@ endif
 
 INSTALLINCLUDE = $(DESTDIR)$(DEVKITPRO)/libogc/include/gxflux
 
+.PHONY: install install-all
+
 install: all
 	@echo "  INSTALL   $(INSTALLLIB)"
-	@install -Dm 644 $(TARGET) $(INSTALLLIB)
-	@mkdir -p $(INSTALLINCLUDE)
-	@install -m 644 $(HEADERS) $(INSTALLINCLUDE)
+	@install -Dm 644 -t $(INSTALLLIB) $(TARGET)
+	@install -Dm 644 -t $(INSTALLINCLUDE) $(HEADERS)
 
 install-all:
 	@$(MAKE) --no-print-directory clean
