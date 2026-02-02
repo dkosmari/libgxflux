@@ -42,34 +42,38 @@ static ssize_t _con_write(struct _reent *r, void *fd, const char *ptr,
 static ssize_t _con_read(struct _reent *r, void *fd, char *ptr, size_t len);
 
 static const devoptab_t _dt_stdio = {
-	"stdio",			// device name
-	0,					// size of file structure
-	NULL,				// device open
-	NULL,				// device close
-	_con_write,			// device write
-	_con_read,			// device read
-	NULL,				// device seek
-	NULL,				// device fstat
-	NULL,				// device stat
-	NULL,				// device link
-	NULL,				// device unlink
-	NULL,				// device chdir
-	NULL,				// device rename
-	NULL,				// device mkdir
-	0,					// dirStateSize
-	NULL,				// device diropen_r
-	NULL,				// device dirreset_r
-	NULL,				// device dirnext_r
-	NULL,				// device dirclose_r
-	NULL,				// device statvfs_r
-	NULL,				// device ftrunctate_r
-	NULL,				// device fsync_r
-	NULL,				// deviceData;
-	NULL,				// chmod_r
-	NULL,				// fchmod_r
-	NULL,				// rmdir_r
-	NULL,				// lstat_r
-	NULL,				// utimes_r
+	.name         = "stdio",
+	.structSize   = sizeof(devoptab_t),
+	.open_r       = NULL,
+	.close_r      = NULL,
+	.write_r      = _con_write,
+	.read_r       = _con_read,
+	.seek_r       = NULL,
+	.fstat_r      = NULL,
+	.stat_r       = NULL,
+	.link_r       = NULL,
+	.unlink_r     = NULL,
+	.chdir_r      = NULL,
+	.rename_r     = NULL,
+	.mkdir_r      = NULL,
+	.dirStateSize = 0,
+	.diropen_r    = NULL,
+	.dirreset_r   = NULL,
+	.dirnext_r    = NULL,
+	.dirclose_r   = NULL,
+	.statvfs_r    = NULL,
+	.ftruncate_r  = NULL,
+	.fsync_r      = NULL,
+	.deviceData   = NULL,
+	.chmod_r      = NULL,
+	.fchmod_r     = NULL,
+	.rmdir_r      = NULL,
+	.lstat_r      = NULL,
+	.utimes_r     = NULL,
+	.fpathconf_r  = NULL,
+	.pathconf_r   = NULL,
+	.symlink_r    = NULL,
+	.readlink_r   = NULL,
 };
 
 static const GXColor _con_colors[] = {
@@ -312,6 +316,7 @@ static size_t _con_esc(const char *ptr, size_t len) {
 			default:
 				break;
 			}
+			break;
 
 		case 'm': // Set Attribute Mode
 			if (!count)
