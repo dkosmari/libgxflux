@@ -13,7 +13,13 @@
 
 static bool quit = false;
 
-void stmcb(void) {
+void on_power(void) {
+	quit = true;
+}
+
+void on_reset(u32 irq, void* ctx) {
+	(void)irq;
+	(void)ctx;
 	quit = true;
 }
 
@@ -25,8 +31,8 @@ int main(int argc, char *argv[]) {
 	VIDEO_Init();
 	PAD_Init();
 
-	SYS_SetResetCallback(stmcb);
-	SYS_SetPowerCallback(stmcb);
+	SYS_SetResetCallback(on_reset);
+	SYS_SetPowerCallback(on_power);
 
 	gfx_video_init(NULL);
 	gfx_init();

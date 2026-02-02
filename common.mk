@@ -31,6 +31,8 @@ endif
 
 DEPDIR = .deps
 
+.PHONY: all
+
 all: $(TARGET)
 
 ifeq ($(LIBRARY),1)
@@ -60,13 +62,15 @@ $(TARGET_STRIPPED): $(TARGET)
 	@echo "  STRIP     $@"
 	@$(STRIP) $< -o $@
 
+.PHONY: wiiload geckoload upload
+
 wiiload: $(TARGET_STRIPPED)
 	@echo "  WIILOAD   $<"
-	@$(DEVKITPPC)/bin/wiiload $<
+	@$(DEVKITPRO)/tools/bin/wiiload $<
 
 geckoload: $(TARGET_STRIPPED)
 	@echo "  WIILOAD   $<"
-	@WIILOAD=$(USBGECKODEVICE) $(DEVKITPPC)/bin/wiiload $<
+	@WIILOAD=$(USBGECKODEVICE) $(DEVKITPRO)/tools/bin/wiiload $<
 
 upload: geckoload
 endif
@@ -84,10 +88,10 @@ endif
 	@echo "  ASSEMBLE  $@"
 	@$(CC) $(CFLAGS) $(DEFINES) $(ASFLAGS) -c $< -o $@
 
+.PHONY: clean
+
 clean:
 	@rm -rf $(DEPDIR)
 	@rm -f $(TARGET) $(TARGET_STRIPPED) $(TARGET).map $(OBJS)
 
 -include $(DEPDIR)/*
-
-.PHONY: clean
